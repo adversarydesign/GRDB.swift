@@ -46,9 +46,35 @@ let package = Package(
     ],
     dependencies: dependencies,
     targets: [
-        .systemLibrary(
+        // waxjaw: bundled SQLite amalgamation (public domain) instead of the
+        // system library. Flags mirror Apple's build where waxjaw depends on them.
+        .target(
             name: "CSQLite",
-            providers: [.apt(["libsqlite3-dev"])]),
+            path: "Sources/CSQLite",
+            exclude: ["sqlite3-amalgamation.c"],
+            cSettings: [
+                .define("SQLITE_ENABLE_FTS5"),
+                .define("SQLITE_ENABLE_FTS3"),
+                .define("SQLITE_ENABLE_FTS3_PARENTHESIS"),
+                .define("SQLITE_ENABLE_FTS4"),
+                .define("SQLITE_ENABLE_RTREE"),
+                .define("SQLITE_ENABLE_SNAPSHOT"),
+                .define("SQLITE_ENABLE_DBSTAT_VTAB"),
+                .define("SQLITE_ENABLE_COLUMN_METADATA"),
+                .define("SQLITE_ENABLE_MATH_FUNCTIONS"),
+                .define("SQLITE_ENABLE_API_ARMOR"),
+                .define("SQLITE_USE_URI", to: "1"),
+                .define("SQLITE_THREADSAFE", to: "2"),
+                .define("SQLITE_DQS", to: "0"),
+                .define("SQLITE_DEFAULT_WAL_SYNCHRONOUS", to: "1"),
+                .define("SQLITE_DEFAULT_MEMSTATUS", to: "0"),
+                .define("SQLITE_MAX_VARIABLE_NUMBER", to: "500000"),
+                .define("SQLITE_LIKE_DOESNT_MATCH_BLOBS"),
+                .define("SQLITE_OMIT_LOAD_EXTENSION"),
+                .define("SQLITE_OMIT_DEPRECATED"),
+                .define("HAVE_USLEEP", to: "1"),
+                .define("HAVE_ISNAN", to: "1"),
+            ]),
         .target(
             name: "GRDB",
             dependencies: ["CSQLite"],
