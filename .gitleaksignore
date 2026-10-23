@@ -1,0 +1,7 @@
+# waxjaw fork: gitleaks generic-api-key false positives inside the vendored
+# SQLite amalgamation (public domain, sha3-256 verified against sqlite.org).
+# The flagged lines are SQLite's own source text, not credentials.
+4cb0b04924abcd89f0e693457f5dda781c49ac1e:Sources/CSQLite/sqlite3-amalgamation.c:generic-api-key:143401
+4cb0b04924abcd89f0e693457f5dda781c49ac1e:Sources/CSQLite/sqlite3-amalgamation.c:generic-api-key:143557
+4cb0b04924abcd89f0e693457f5dda781c49ac1e:Sources/CSQLite/sqlite3-amalgamation.c:generic-api-key:143649
+4cb0b04924abcd89f0e693457f5dda781c49ac1e:Sources/CSQLite/sqlite3-amalgamation.c:generic-api-key:261061
