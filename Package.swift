@@ -72,6 +72,13 @@ let package = Package(
                 .define("SQLITE_LIKE_DOESNT_MATCH_BLOBS"),
                 .define("SQLITE_OMIT_LOAD_EXTENSION"),
                 .define("SQLITE_OMIT_DEPRECATED"),
+                // SQLite 3.54 refuses a statement that references a CTE after it has
+                // allocated SQLITE_MAX_EXPR_DEPTH cursors (select.c, 2026-10-04 fix).
+                // waxjaw browse statements inline the hidden-file predicate many
+                // times; the largest measured one needs 5,814 cursors (2026-10-23).
+                // 16,000 restores the pre-3.54 behavior with headroom. Generated SQL
+                // never nests expressions near this depth.
+                .define("SQLITE_MAX_EXPR_DEPTH", to: "16000"),
                 .define("HAVE_USLEEP", to: "1"),
                 .define("HAVE_ISNAN", to: "1"),
             ]),
